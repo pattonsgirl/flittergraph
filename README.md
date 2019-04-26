@@ -12,8 +12,8 @@ B. The employee has about 40 Flitter contacts. Three of these contacts are his h
 In addition to the above, the two social structures have geospatial implications. While a target and handler may be in a large city, a middleman might be in nearby smaller locations. A leadership role, such as the one of Fearless Leader, would likely require a presence in a larger city.
 
 
-### Notes on Scenario files:
-* Entities_Table = Flitter Names, but with added column (all with person type)
+### Notes on files in data folder:
+* Treating files as though they are .csv as they are comma delimited values
 * Flitter Names associates name with numeric ID
 * People Cities associates numeric ID with City
 * Links_Table associates numeric IDs with whom they have contact with (by reference of numeric ID)
