@@ -31,9 +31,20 @@ In addition to the above, the two social structures have geospatial implications
 * Links_Table associates numeric IDs with whom they have contact with (by reference of numeric ID)
 
 ### Visualization Goals:
-* vtkVariant
+* KMeans Clustering
 * vtkTableToGraph
+* vtkTableToTree - vtkGroupLeafNodes
 
 ### Resources:
 * English overview of what functionality vtkDelimitedTextReader has
   * https://vtk.org/pipermail/vtk-developers/2017-July/035282.html
+  * vtkDelimitedTextReader example (using old to show correct input file sample):
+  * https://vtk.org/Wiki/VTK/Examples/Cxx/InfoVis/DelimitedTextReader#Please_try_the_new_VTKExamples_website
+* vtk Table To Graph - reference to link friends?
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/csv_to_graph.py
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/nodes.csv
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/edges.csv
+* TableToTree - GroupLeafVertices
+  * https://github.com/Kitware/VTK/blob/master/Infovis/Layout/Testing/Cxx/TestGroupLeafVertices.cxx
+* vtkTable - how to manipulate tables
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/tables_adv.py

@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
     auto *flitter_names = vtkDelimitedTextReader::New();
     flitter_names->SetFileName("../data/Flitter_Names.txt");
     flitter_names->DetectNumericColumnsOn();
+    flitter_names->SetHaveHeaders(1);
     flitter_names->SetFieldDelimiterCharacters("\t");
     flitter_names->Update();
 
@@ -32,6 +33,7 @@ int main(int argc, char* argv[]) {
     //These are the vertex edges
     auto *people_cities = vtkDelimitedTextReader::New();
     people_cities->SetFileName("../data/People-Cities.txt");
+    people_cities->SetHaveHeaders(1);
     people_cities->SetFieldDelimiterCharacters("\t");
     people_cities->Update();
 
@@ -39,22 +41,28 @@ int main(int argc, char* argv[]) {
     //These are the vertex edges
     //IDS are NOT equal to IDs of users
     //subract by 12 - found by Kijowski
-    auto *links_table = vtkDelimitedTextReader::New();
-    links_table->SetFileName("../data/Links_Table.txt");
-    links_table->SetFieldDelimiterCharacters("\t");
-    links_table->Update();
+    auto *links_users = vtkDelimitedTextReader::New();
+    links_users->SetFileName("../data/Links_Table.txt");
+    links_users->SetHaveHeaders(1);
+    links_users->SetFieldDelimiterCharacters("\t");
+    links_users->Update();
 
     
     //Output number of rows and columns for files
-    vtkTable* table = people_cities->GetOutput();
-    cout << "Table has " << table->GetNumberOfRows()
-            << " rows." << std::endl;
-    cout << "Table has " << table->GetNumberOfColumns()
-            << " columns." << std::endl;
+    vtkTable* flitter_table = flitter_names->GetOutput();
+    vtkTable* cities_table = people_cities->GetOutput();
+    vtkTable* links_table = links_users->GetOutput();
+
+    cout << "Table has " << cities_table->GetNumberOfRows() << " rows." << endl;
+    cout << "Table has " << cities_table->GetNumberOfColumns() << " columns." << endl;
     //this will return a pointer, I think, to the array
-    //std::cout << "Cities are:\n " << table->GetColumn(0) << std::endl;
+    cout << "Cities are:\n " << cities_table->GetColumn(0) << std::endl;
     //Get value in format row, col - type is variant, so we need to cast as needed
-    cout << "City for user 5:\n " << (table->GetValue(5,1)).ToString() << std::endl;
+    //.GetTypeAsString will return the TYPE as a STRING, NOT the value
+    cout << "City for user 4:\n " << (cities_table->GetValue(5,1)).ToString() << endl;
+    //formatted dump of table - it's loaded properly!
+    links_table->Dump();
+    
     
     auto *t2g = vtkTableToGraph::New();
 
