@@ -1,6 +1,18 @@
 # flittergraph
 
 ### Problem Scenario:
+There are problems at the U.S. Embassy in Flovania, a small land-locked country situated between the nations of Trium to the north and east, Posana to the west, and the Republic of Transak to the southwest.  
+The network security team recently found irregularities while reviewing Embassy network traffic logs.  Finding no security issues that could explain the anomalies, they notified the Embassy Counterintelligence Officer.  Upon further investigation, the CI officer identified certain espionage red flags.  You have been requested to help him with the investigation.  
+The 60 Embassy employees have 24x7 access to the facility, with access to the classified information room.   
+Attached you'll find the following datasets:
+1.  Badge and Computer Network Traffic
+2.  Social Network and Geospatial
+3.  Video 
+These datasets may help identify possible suspects, accomplices and evidence that could help the CI Office with their investigation.
+For each of these datasets (i.e. for each of the mini challenge) you are asked to answer specific questions that can be deduced strictly from the data provided. You will also be asked to provide a process description highlighting your visualizations and interactions used to arrive at your conclusions. Please see the task description page on the Challenge website.  
+For the Grand Challenge, you are asked to integrate the analysis results of the 3 Mini Challenges to provide insight to the overall situation and to prepare a debrief document describing the situation, providing the who, what, when, where and why according to your analysis.
+
+#### Social Net and Geo Problem Definition:
 Reference: IEEE VAST mini challenge 2009
 		
 We believe an employee communicated with his/her handler(s) (a contact from the criminal network) through Flitter, however we do not know the Flitter name of the handler nor of the espionage organization. We believe that the associated network may take one of two forms of social structures:
