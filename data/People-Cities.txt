@@ -1,5 +1,4 @@
-ID	City	
-INT	STRING	
+ID  City		
 1	Koul
 2	Kouvnic
 3	Koul
