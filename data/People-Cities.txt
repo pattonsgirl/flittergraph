@@ -1,4 +1,4 @@
-ID  City		
+ID	City
 1	Koul
 2	Kouvnic
 3	Koul
@@ -11,7 +11,7 @@ ID  City
 10	Prounov
 11	Ryzkland
 12	Koul
-13  Pasko
+13	Pasko
 14	Kouvnic
 15	Kouvnic
 16	Transpasko
