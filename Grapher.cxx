@@ -8,6 +8,9 @@
 #include <vtkTableToGraph.h>
 #include <vtkTable.h>
 #include <vtkVariant.h>
+#include <vtkGraphLayout.h>
+#include <vtkGraphLayoutView.h>
+#include <vtkViewTheme.h>
 //includes for C++
 #include <string>
 #include <iostream>
@@ -47,7 +50,7 @@ int main(int argc, char* argv[]) {
     links_users->SetFieldDelimiterCharacters("\t");
     links_users->Update();
 
-    
+    /* *** Code to play with Tables - checking data reading
     //Output number of rows and columns for files
     vtkTable* flitter_table = flitter_names->GetOutput();
     vtkTable* cities_table = people_cities->GetOutput();
@@ -62,10 +65,37 @@ int main(int argc, char* argv[]) {
     cout << "City for user 4:\n " << (cities_table->GetValue(5,1)).ToString() << endl;
     //formatted dump of table - it's loaded properly!
     links_table->Dump();
+    */
     
     
-    auto *t2g = vtkTableToGraph::New();
+    auto *links_t2g = vtkTableToGraph::New();
+    links_t2g->AddInputConnection(links_users->GetOutputPort());
+    links_t2g->AddLinkVertex("ID", "ID1", 0);
+    links_t2g->AddLinkVertex("ID2", "ID2", 0);
+    links_t2g->AddLinkEdge("ID", "ID2");
 
+    auto *cities_t2g = vtkTableToGraph::New();
+    cities_t2g->AddInputConnection(people_cities->GetOutputPort());
+    cities_t2g->AddLinkVertex("ID", "ID1", 0);
+    cities_t2g->AddLinkVertex("City", "ID2", 0);
+    cities_t2g->AddLinkEdge("ID", "City");
+
+    auto *layout = vtkGraphLayout::New();
+
+
+    auto *graph_layout = vtkGraphLayoutView::New();
+    graph_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
+    graph_layout->SetLayoutStrategyToFast2D();
+
+    auto *view_theme = vtkViewTheme::New();
+
+    graph_layout->ApplyViewTheme(view_theme);
+    view_theme->FastDelete();
+
+    graph_layout->GetRenderWindow();
+    graph_layout->ResetCamera();
+    graph_layout->Render();
+    graph_layout->GetInteractor()->Start();
     
 
 }
