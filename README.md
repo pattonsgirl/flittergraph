@@ -40,6 +40,9 @@ In addition to the above, the two social structures have geospatial implications
   * https://vtk.org/pipermail/vtk-developers/2017-July/035282.html
   * vtkDelimitedTextReader example (using old to show correct input file sample):
   * https://vtk.org/Wiki/VTK/Examples/Cxx/InfoVis/DelimitedTextReader#Please_try_the_new_VTKExamples_website
+  * Python example - super duper useful:
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/delimited_text_reader2.py
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/authors.csv
 * vtk Table To Graph - reference to link friends?
   * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/csv_to_graph.py
   * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/nodes.csv

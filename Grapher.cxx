@@ -76,9 +76,11 @@ int main(int argc, char* argv[]) {
 
     auto *cities_t2g = vtkTableToGraph::New();
     cities_t2g->AddInputConnection(people_cities->GetOutputPort());
-    cities_t2g->AddLinkVertex("ID", "ID1", 0);
-    cities_t2g->AddLinkVertex("City", "ID2", 0);
+    cities_t2g->AddInputConnection(links_users->GetOutputPort());
+    cities_t2g->AddLinkVertex("ID", "ID", 0);
+    cities_t2g->AddLinkVertex("City", "City", 0);
     cities_t2g->AddLinkEdge("ID", "City");
+    //cities_t2g->AddLinkEdge("ID", "ID2");
 
     auto *layout = vtkGraphLayout::New();
 
@@ -87,7 +89,8 @@ int main(int argc, char* argv[]) {
     graph_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
     graph_layout->SetLayoutStrategyToFast2D();
 
-    auto *view_theme = vtkViewTheme::New();
+    auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
+    //TODO: Play with colors
 
     graph_layout->ApplyViewTheme(view_theme);
     view_theme->FastDelete();
@@ -97,5 +100,4 @@ int main(int argc, char* argv[]) {
     graph_layout->Render();
     graph_layout->GetInteractor()->Start();
     
-
 }
