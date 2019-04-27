@@ -43,11 +43,14 @@ int main(int argc, char* argv[]) {
     links_table->SetFieldDelimiterCharacters("\t");
     links_table->Update();
 
+    /*
+    //Output number of rows and columns for files
     vtkTable* table = people_cities->GetOutput();
     std::cout << "Table has " << table->GetNumberOfRows()
             << " rows." << std::endl;
     std::cout << "Table has " << table->GetNumberOfColumns()
             << " columns." << std::endl;
+    */
 
     
 
