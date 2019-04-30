@@ -11,6 +11,8 @@
 #include <vtkGraphLayout.h>
 #include <vtkGraphLayoutView.h>
 #include <vtkViewTheme.h>
+#include <vtkAnnotationLink.h>
+#include <vtkViewUpdater.h>
 //includes for C++
 #include <string>
 #include <iostream>
@@ -67,6 +69,11 @@ int main(int argc, char* argv[]) {
     links_table->Dump();
     */
     
+    //basing this off of select-domain.py
+    //Annotation Link should help us connect components between view windows
+    //testing setting against user IDs / Flitter IDs
+    auto *anno_link = vtkAnnotationLink::New();
+    anno_link->AddDomainMap(flitter_names->GetOutput());
     
     auto *links_t2g = vtkTableToGraph::New();
     links_t2g->AddInputConnection(links_users->GetOutputPort());
@@ -119,6 +126,12 @@ int main(int argc, char* argv[]) {
     links_layout->GetRenderWindow();
     links_layout->ResetCamera();
     links_layout->Render();
+
+    //this is to update view windows with our link?
+    auto updater = vtkViewUpdater::New();
+    updater->AddAnnotationLink(anno_link);
+    updater->AddView(cities_layout);
+    updater->AddView(links_layout);
 
     //only need to call one to get the party started?
     cities_layout->GetInteractor()->Start();
