@@ -92,15 +92,19 @@ int main(int argc, char* argv[]) {
     //cities_layout->SetVertexLabelArrayName("ID");
     cities_layout->SetVertexLabelArrayName("City");
     cities_layout->SetVertexLabelVisibility(1);
+    cities_layout->GetRenderWindow()->SetSize(500,500);
     cities_layout->SetLayoutStrategyToFast2D();
 
     auto *links_layout = vtkGraphLayoutView::New();
     links_layout->AddRepresentationFromInputConnection(links_t2g->GetOutputPort());
     //links_layout->SetVertexLabelArrayName("ID");
     //links_layout->SetVertexLabelVisibility(1);
+    links_layout->GetRenderWindow()->SetSize(500,500);
     links_layout->SetLayoutStrategyToFast2D();
 
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
+    view_theme->SetSelectedCellColor(1,0,1);
+    view_theme->SetSelectedPointColor(1,0,1);
     //TODO: Play with colors
 
     cities_layout->ApplyViewTheme(view_theme);
