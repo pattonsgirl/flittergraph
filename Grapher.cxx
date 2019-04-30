@@ -89,10 +89,15 @@ int main(int argc, char* argv[]) {
 
     auto *cities_layout = vtkGraphLayoutView::New();
     cities_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
+    //cities_layout->SetVertexLabelArrayName("ID");
+    cities_layout->SetVertexLabelArrayName("City");
+    cities_layout->SetVertexLabelVisibility(1);
     cities_layout->SetLayoutStrategyToFast2D();
 
     auto *links_layout = vtkGraphLayoutView::New();
     links_layout->AddRepresentationFromInputConnection(links_t2g->GetOutputPort());
+    //links_layout->SetVertexLabelArrayName("ID");
+    //links_layout->SetVertexLabelVisibility(1);
     links_layout->SetLayoutStrategyToFast2D();
 
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
@@ -102,13 +107,17 @@ int main(int argc, char* argv[]) {
     links_layout->ApplyViewTheme(view_theme);
     view_theme->FastDelete();
 
+    //set up multiple render windows
     cities_layout->GetRenderWindow();
-    links_layout->GetRenderWindow();
     cities_layout->ResetCamera();
-    links_layout->ResetCamera();
     cities_layout->Render();
+
+    links_layout->GetRenderWindow();
+    links_layout->ResetCamera();
     links_layout->Render();
+
+    //only need to call one to get the party started?
     cities_layout->GetInteractor()->Start();
-    links_layout->GetInteractor()->Start();
+    //links_layout->GetInteractor()->Start();
     
 }
