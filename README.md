@@ -31,7 +31,7 @@ In addition to the above, the two social structures have geospatial implications
 * Links_Table associates numeric IDs with whom they have contact with (by reference of numeric ID)
 
 ### Visualization Goals:
-* KMeans Clustering
+* KMeans Clustering - wrong direction - over complicated
 * vtkTableToGraph
 * vtkTableToTree - vtkGroupLeafNodes
 

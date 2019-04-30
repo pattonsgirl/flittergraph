@@ -71,33 +71,44 @@ int main(int argc, char* argv[]) {
     auto *links_t2g = vtkTableToGraph::New();
     links_t2g->AddInputConnection(links_users->GetOutputPort());
     links_t2g->AddLinkVertex("ID", "ID1", 0);
-    links_t2g->AddLinkVertex("ID2", "ID2", 0);
-    links_t2g->AddLinkEdge("ID", "ID2");
+    //links_t2g->AddLinkVertex("ID2", "ID2", 0);
+    links_t2g->AddLinkEdge("ID2", "ID");
 
     auto *cities_t2g = vtkTableToGraph::New();
     cities_t2g->AddInputConnection(people_cities->GetOutputPort());
-    cities_t2g->AddInputConnection(links_users->GetOutputPort());
+    //cities_t2g->AddInputConnection(links_users->GetOutputPort());
     cities_t2g->AddLinkVertex("ID", "ID", 0);
     cities_t2g->AddLinkVertex("City", "City", 0);
     cities_t2g->AddLinkEdge("ID", "City");
+    //stopped thought - connect between ID and friend ID
     //cities_t2g->AddLinkEdge("ID", "ID2");
+    //cities_t2g->Dump();
 
     auto *layout = vtkGraphLayout::New();
 
 
-    auto *graph_layout = vtkGraphLayoutView::New();
-    graph_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
-    graph_layout->SetLayoutStrategyToFast2D();
+    auto *cities_layout = vtkGraphLayoutView::New();
+    cities_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
+    cities_layout->SetLayoutStrategyToFast2D();
+
+    auto *links_layout = vtkGraphLayoutView::New();
+    links_layout->AddRepresentationFromInputConnection(links_t2g->GetOutputPort());
+    links_layout->SetLayoutStrategyToFast2D();
 
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
     //TODO: Play with colors
 
-    graph_layout->ApplyViewTheme(view_theme);
+    cities_layout->ApplyViewTheme(view_theme);
+    links_layout->ApplyViewTheme(view_theme);
     view_theme->FastDelete();
 
-    graph_layout->GetRenderWindow();
-    graph_layout->ResetCamera();
-    graph_layout->Render();
-    graph_layout->GetInteractor()->Start();
+    cities_layout->GetRenderWindow();
+    links_layout->GetRenderWindow();
+    cities_layout->ResetCamera();
+    links_layout->ResetCamera();
+    cities_layout->Render();
+    links_layout->Render();
+    cities_layout->GetInteractor()->Start();
+    links_layout->GetInteractor()->Start();
     
 }
