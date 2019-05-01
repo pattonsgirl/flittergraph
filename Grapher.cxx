@@ -86,8 +86,10 @@ int main(int argc, char* argv[]) {
     int num_link_vertices = links_t2g->GetOutput()->GetNumberOfVertices();
     //create a new graph that will contain bosses (99+ links)
     auto *bosses_graph = vtkGraph::New();
-    auto *middleman_graph = vtkGraph::New();
+    //handlers - between 30 and 40 links
     auto *handler_graph = vtkGraph::New();
+    //middlemen - between 4 and 5 links
+    auto *middleman_graph = vtkGraph::New();
     //bosses_graph->DeepCopy(links_t2g->GetOutput());
     for(int i = 0; i < num_link_vertices; i++){
         int degree = links_t2g->GetOutput()->GetDegree(i);
@@ -100,8 +102,8 @@ int main(int argc, char* argv[]) {
             //then it's a handler OR employee candidate
             //cout << degree << endl;
         }
-        else if(2 <= degree && 5 >= degree){
-            //then it's a middleman
+        else if(4 <= degree && 5 >= degree){
+            //then it's a middleman candidate
             //cout << degree << endl;
         }
         else{
@@ -149,19 +151,6 @@ int main(int argc, char* argv[]) {
     links_layout->SetVertexLabelVisibility(1);
     links_layout->GetRenderWindow()->SetSize(600,600);
     links_layout->SetLayoutStrategyToClustering2D();
-
-    //NOTE: ONLY DOING FOR LINKS HERE
-    //creates a category array from a string array
-    auto *str_category = vtkStringToCategory::New();
-    str_category->SetInputConnection(cities_t2g->GetOutputPort());
-    //TODO: Play with what these variables mean - 3rd was 4 - this seems to be a size parameter?
-    str_category->SetInputArrayToProcess(0,0,0,vtkDataObject::FIELD_ASSOCIATION_VERTICES,"domain");
-
-    /*
-    auto *rep = cities_layout->AddRepresentationFromInputConnection(str_category->GetOutputPort());
-    rep->SetSelectionType(2);
-    rep->SetAnnotationLink(anno_link);
-    */
 
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
     view_theme->SetSelectedCellColor(1,0,1);

@@ -73,11 +73,16 @@ my skills parsing csv is bash before exploring C++ libraries to assist
 * Let's break down the search space:
   * I can find the degree of a vertex AND I can find the edges count
   * Problem: with my current method, I cannot get bi-directional counts on vertices
+  * Note: defining by the below was determined after talking to Kijowski and \
+  looking at how past solutions parsed the data.  Initially I was just going to remove \
+  person of non-interest (less than 15 links)
   * An employee should have 40 Flitter contacts
   * A handler should have  30-40 Flitter contacts 
     * handlers should be friends with the employee & the middle-man
   * A middle-man should have 2-5 contacts, including the boss and the handler
   * The boss should have over 100 contacts, and contact with a middle man
+* I am not worrying about displaying Flitter names for the scope of this project
+  * Should have ability to select IDs, and then you can find them in Flitter_Names.txt
 
 * vtkTableToGraph
 * visualize directed graph?
