@@ -110,13 +110,14 @@ int main(int argc, char* argv[]) {
             //Link the vertex id array into the vertex data of the graph
             //bosses_graph->GetVertexData()->AddArray( vertID );
             while(link_edge_iterator->HasNext()) { 
-                i = remember_me;
+                //i = remember_me;
                 vtkOutEdgeType edge = link_edge_iterator->Next();
                 std::cout << "Source: " << i << " Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
+                edge.Target = bosses_graph->AddChild(i);
                 //bosses_graph->AddVertex();
                 //vertID->InsertNextValue(i);
                 //bosses_graph->AddVertex(i);
-                //bosses_graph->AddVertex(edge.Target);
+                //bosses_graph->AddChild(edge.Target);
                 //bosses_graph->AddEdge(i, edge.Target);
             }
             i = remember_me;
@@ -148,21 +149,6 @@ int main(int argc, char* argv[]) {
     cities_t2g->AddLinkEdge("ID", "City");
     //need to call update OR vertices is not populated
     cities_t2g->Update();
-    /* auto *city_edge_iterator = vtkOutEdgeIterator::New();
-    //get out edges takes vertex and iterator as args
-    cities_t2g->GetOutput()->GetOutEdges(6002, city_edge_iterator);
-    //THERE ARE 12 CITIES:
-    //Citites are populated 2nd, so their vertex IDs are 6001-6012
-    cout << cities_t2g->GetOutput()->GetNumberOfVertices() << endl;
-    //Note: I need to know the city vertex IDs to get a "useful" number besides 1
-    cout << cities_t2g->GetOutput()->GetOutDegree(6002) << endl;
-    int counter = 0;
-    while(city_edge_iterator->HasNext()) { 
-        vtkOutEdgeType edge = city_edge_iterator->Next();
-        std::cout << "Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
-        counter += 1;
-    }
-    cout << "Verifying count: " << counter << endl; */
 
     auto *cities_layout = vtkGraphLayoutView::New();
     cities_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
@@ -181,7 +167,6 @@ int main(int argc, char* argv[]) {
 
     auto *boss_layout = vtkGraphLayoutView::New();
     boss_layout->SetRepresentationFromInput(bosses_graph);
-    //cities_layout->SetVertexLabelArrayName("ID");
     //boss_layout->SetVertexLabelArrayName("City");
     //boss_layout->SetVertexLabelVisibility(1);
     boss_layout->GetRenderWindow()->SetSize(600,600);
