@@ -61,6 +61,7 @@ int main(int argc, char* argv[]) {
     auto *anno_link = vtkAnnotationLink::New();
     anno_link->AddDomainMap(flitter_names->GetOutput());
     
+    //TODO: This method is losing the reverse connection - only looking at col 2
     auto *links_t2g = vtkTableToGraph::New();
     links_t2g->AddInputConnection(links_users->GetOutputPort());
     links_t2g->AddLinkVertex("ID2", "ID", 0);
@@ -90,7 +91,7 @@ int main(int argc, char* argv[]) {
     cities_t2g->AddLinkEdge("ID", "City");
     //need to call update OR vertices is not populated
     cities_t2g->Update();
-    auto *city_edge_iterator = vtkOutEdgeIterator::New();
+    /* auto *city_edge_iterator = vtkOutEdgeIterator::New();
     //get out edges takes vertex and iterator as args
     cities_t2g->GetOutput()->GetOutEdges(6002, city_edge_iterator);
     //THERE ARE 12 CITIES:
@@ -103,7 +104,7 @@ int main(int argc, char* argv[]) {
         vtkOutEdgeType edge = city_edge_iterator->Next();
         counter += 1;
     }
-    cout << "Verifying count: " << counter << endl;
+    cout << "Verifying count: " << counter << endl; */
 
     auto *cities_layout = vtkGraphLayoutView::New();
     cities_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
