@@ -91,14 +91,16 @@ int main(int argc, char* argv[]) {
     //NOTE: ONLY DOING FOR LINKS HERE
     //creates a category array from a string array
     auto *str_category = vtkStringToCategory::New();
-    str_category->SetInputConnection(links_t2g->GetOutputPort());
-    //TODO: Play with what these variables mean
-    str_category->SetInputArrayToProcess(0,0,0,4,"domain");
+    str_category->SetInputConnection(cities_t2g->GetOutputPort());
+    //TODO: Play with what these variables mean - 3rd was 4 - this seems to be a size parameter?
+    str_category->SetInputArrayToProcess(0,0,0,vtkDataObject::FIELD_ASSOCIATION_VERTICES,"domain");
 
-    auto *rep = links_layout->AddRepresentationFromInputConnection(str_category->GetOutputPort());
+    /*
+    auto *rep = cities_layout->AddRepresentationFromInputConnection(str_category->GetOutputPort());
     rep->SetSelectionType(2);
     rep->SetAnnotationLink(anno_link);
-
+    */
+    
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
     view_theme->SetSelectedCellColor(1,0,1);
     view_theme->SetSelectedPointColor(1,0,1);

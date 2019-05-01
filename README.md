@@ -30,9 +30,15 @@ In addition to the above, the two social structures have geospatial implications
 * People Cities associates numeric ID with City
 * Links_Table associates numeric IDs with whom they have contact with (by reference of numeric ID)
 
-### Visualization Goals:
-* KMeans Clustering - wrong direction - over complicated
+### Project Notes:
+* A key component to this challenge is parsing the input data (talked this through \
+with Kijowski).  This can be done in c++ OR in bash.  I'm going to try to improve \
+my skills parsing csv is bash before exploring C++ libraries to assist
+  * `$ cat Links_Table.txt | awk '{print $1}' | sort | uniq -c`
+
 * vtkTableToGraph
+* visualize directed graph?
+* Selected Graph IDs?
 * vtkTableToTree - vtkGroupLeafNodes
 
 ### Resources:
@@ -51,9 +57,11 @@ In addition to the above, the two social structures have geospatial implications
   * https://github.com/Kitware/VTK/blob/master/Infovis/Layout/Testing/Cxx/TestGroupLeafVertices.cxx
 * vtkTable - how to manipulate tables
   * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/tables_adv.py
-* vtkStringToCategory - this link works, Google search didn't
+* vtkStringToCategory - this link works, Google search didn't - Look at Description for use?
   * https://vtk.org/doc/nightly/html/classvtkStringToCategory.html
 * Selection Domain - Python - great example of what I think I'm trying to do
   * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/selection_domain.py
 * Extract selected graph - maybe do something like this to pull Flitter IDs?
   * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/selection.py
+* How to get how many vertices:
+  * https://vtk.org/gitweb?p=VTK.git;a=blob;f=Infovis/Core/Testing/Cxx/TestTableToGraph.cxx
