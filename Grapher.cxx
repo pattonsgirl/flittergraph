@@ -79,6 +79,7 @@ int main(int argc, char* argv[]) {
     /*int count = 0;
     while(link_edge_iterator->HasNext()) { 
         vtkOutEdgeType edge = link_edge_iterator->Next();
+        std::cout << "Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
         count += 1;
     }
     cout << "Verifying count: " << count << endl;*/
@@ -93,11 +94,21 @@ int main(int argc, char* argv[]) {
     //bosses_graph->DeepCopy(links_t2g->GetOutput());
     for(int i = 0; i < num_link_vertices; i++){
         int degree = links_t2g->GetOutput()->GetDegree(i);
+        auto *link_edge_iterator = vtkOutEdgeIterator::New();
         if(100 <= degree){
             //then it's a boss candidate
+            links_t2g->GetOutput()->GetOutEdges(i, link_edge_iterator);
+            while(link_edge_iterator->HasNext()) { 
+                vtkOutEdgeType edge = link_edge_iterator->Next();
+                std::cout << "Source: " << i << " Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
+                bosses_graph->AddLinkVertex(i,"ID", 0);
+                bosses_graph->AddLinkVertex(edge.Target,"Follow",0);
+                bosses_graph->AddLinkEdge("ID","Follow");
+            }
+        }
             //cout << degree << endl;
             //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
-        }
+        
         else if(30 <= degree && 40 >= degree) {
             //then it's a handler OR employee candidate
             //cout << degree << endl;
@@ -133,6 +144,7 @@ int main(int argc, char* argv[]) {
     int counter = 0;
     while(city_edge_iterator->HasNext()) { 
         vtkOutEdgeType edge = city_edge_iterator->Next();
+        std::cout << "Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
         counter += 1;
     }
     cout << "Verifying count: " << counter << endl; */
