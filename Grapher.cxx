@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
     
     auto *links_t2g = vtkTableToGraph::New();
     links_t2g->AddInputConnection(links_users->GetOutputPort());
-    links_t2g->AddLinkVertex("ID", "ID1", 0);
+    links_t2g->AddLinkVertex("ID2", "ID", 0);
     //don't need or want vertexes duplicated?
     //links_t2g->AddLinkVertex("ID2", "ID2", 0);
     links_t2g->AddLinkEdge("ID2", "ID");
@@ -79,15 +79,15 @@ int main(int argc, char* argv[]) {
     //cities_layout->SetVertexLabelArrayName("ID");
     cities_layout->SetVertexLabelArrayName("City");
     cities_layout->SetVertexLabelVisibility(1);
-    cities_layout->GetRenderWindow()->SetSize(500,500);
+    cities_layout->GetRenderWindow()->SetSize(600,600);
     cities_layout->SetLayoutStrategyToFast2D();
 
     auto *links_layout = vtkGraphLayoutView::New();
     links_layout->AddRepresentationFromInputConnection(links_t2g->GetOutputPort());
-    //links_layout->SetVertexLabelArrayName("ID");
-    //links_layout->SetVertexLabelVisibility(1);
-    links_layout->GetRenderWindow()->SetSize(500,500);
-    links_layout->SetLayoutStrategyToFast2D();
+    links_layout->SetVertexLabelArrayName("ID");
+    links_layout->SetVertexLabelVisibility(1);
+    links_layout->GetRenderWindow()->SetSize(600,600);
+    links_layout->SetLayoutStrategyToClustering2D();
 
     //NOTE: ONLY DOING FOR LINKS HERE
     //creates a category array from a string array
