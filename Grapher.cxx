@@ -52,23 +52,6 @@ int main(int argc, char* argv[]) {
     links_users->SetHaveHeaders(1);
     links_users->SetFieldDelimiterCharacters("\t");
     links_users->Update();
-
-    /* *** Code to play with Tables - checking data reading
-    //Output number of rows and columns for files
-    vtkTable* flitter_table = flitter_names->GetOutput();
-    vtkTable* cities_table = people_cities->GetOutput();
-    vtkTable* links_table = links_users->GetOutput();
-
-    cout << "Table has " << cities_table->GetNumberOfRows() << " rows." << endl;
-    cout << "Table has " << cities_table->GetNumberOfColumns() << " columns." << endl;
-    //this will return a pointer, I think, to the array
-    cout << "Cities are:\n " << cities_table->GetColumn(0) << std::endl;
-    //Get value in format row, col - type is variant, so we need to cast as needed
-    //.GetTypeAsString will return the TYPE as a STRING, NOT the value
-    cout << "City for user 4:\n " << (cities_table->GetValue(5,1)).ToString() << endl;
-    //formatted dump of table - it's loaded properly!
-    links_table->Dump();
-    */
     
     //basing this off of select-domain.py
     //Annotation Link should help us connect components between view windows
@@ -89,13 +72,11 @@ int main(int argc, char* argv[]) {
     cities_t2g->AddLinkVertex("ID", "ID", 0);
     cities_t2g->AddLinkVertex("City", "City", 0);
     cities_t2g->AddLinkEdge("ID", "City");
-    //stopped thought - connect between ID and friend ID
-    //cities_t2g->AddLinkEdge("ID", "ID2");
-    //cities_t2g->Dump();
 
     //creates a category array from a string array
     auto *str_category = vtkStringToCategory::New();
     str_category->SetInputConnection(links_t2g->GetOutputPort());
+    //TODO: Play with what these variables mean
     str_category->SetInputArrayToProcess(0,0,0,4,"domain");
 
 
@@ -132,8 +113,6 @@ int main(int argc, char* argv[]) {
     links_layout->ResetCamera();
     links_layout->Render();
 
-    cities_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
-    links_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
     //this is to update view windows with our link?
     auto updater = vtkViewUpdater::New();
     updater->AddAnnotationLink(anno_link);
