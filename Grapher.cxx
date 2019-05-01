@@ -14,6 +14,7 @@
 #include <vtkAnnotationLink.h>
 #include <vtkViewUpdater.h>
 #include <vtkStringToCategory.h>
+#include <vtkDataRepresentation.h>
 //includes for C++
 #include <string>
 #include <iostream>
@@ -100,7 +101,7 @@ int main(int argc, char* argv[]) {
     rep->SetSelectionType(2);
     rep->SetAnnotationLink(anno_link);
     */
-    
+
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
     view_theme->SetSelectedCellColor(1,0,1);
     view_theme->SetSelectedPointColor(1,0,1);
@@ -119,6 +120,8 @@ int main(int argc, char* argv[]) {
     links_layout->ResetCamera();
     links_layout->Render();
 
+    cities_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
+    links_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
     //this is to update view windows with our link?
     auto updater = vtkViewUpdater::New();
     updater->AddAnnotationLink(anno_link);
