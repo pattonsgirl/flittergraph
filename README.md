@@ -72,6 +72,7 @@ my skills parsing csv is bash before exploring C++ libraries to assist
   themselves has too little activity, then I lose integrity of my visualization
 * Let's break down the search space:
   * I can find the degree of a vertex AND I can find the edges count
+  * Problem: with my current method, I cannot get bi-directional counts on vertices
   * An employee should have 40 Flitter contacts
   * A handler should have  30-40 Flitter contacts 
     * handlers should be friends with the employee & the middle-man

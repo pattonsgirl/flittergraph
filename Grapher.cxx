@@ -16,6 +16,7 @@
 #include <vtkStringToCategory.h>
 #include <vtkDataRepresentation.h>
 #include <vtkOutEdgeIterator.h>
+#include <vtkGraph.h>
 //includes for C++
 #include <string>
 #include <iostream>
@@ -71,16 +72,57 @@ int main(int argc, char* argv[]) {
     links_t2g->AddLinkEdge("ID", "ID2");
     //links_t2g->AddLinkEdge("ID2", "ID");
     links_t2g->Update();
-    auto *link_edge_iterator = vtkOutEdgeIterator::New();
-    links_t2g->GetOutput()->GetOutEdges(2, link_edge_iterator);
+    //auto *link_edge_iterator = vtkOutEdgeIterator::New();
+    //links_t2g->GetOutput()->GetOutEdges(2, link_edge_iterator);
     cout << links_t2g->GetOutput()->GetNumberOfVertices() << endl;
     cout << links_t2g->GetOutput()->GetDegree(2) << endl;
-    int count = 0;
+    /*int count = 0;
     while(link_edge_iterator->HasNext()) { 
         vtkOutEdgeType edge = link_edge_iterator->Next();
         count += 1;
     }
-    cout << "Verifying count: " << count << endl;
+    cout << "Verifying count: " << count << endl;*/
+
+    int num_link_vertices = links_t2g->GetOutput()->GetNumberOfVertices();
+    //create a new graph that will contain bosses (99+ links)
+    auto *bosses_graph = vtkGraph::New();
+    //bosses_graph->DeepCopy(links_t2g->GetOutput());
+    for(int i = 0; i < num_link_vertices; i++){
+        int degree = links_t2g->GetOutput()->GetDegree(i);
+        if(100 <= degree){
+            //cout << degree << endl;
+            //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
+        }
+        else{
+            //bosses_graph->RemoveVertex(i);
+        }
+    }
+
+    auto *handler_graph = vtkGraph::New();
+    //bosses_graph->DeepCopy(links_t2g->GetOutput());
+    for(int i = 0; i < num_link_vertices; i++){
+        int degree = links_t2g->GetOutput()->GetDegree(i);
+        if(30 <= degree && 40 >= degree){
+            cout << degree << endl;
+            //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
+        }
+        else{
+            //bosses_graph->RemoveVertex(i);
+        }
+    }
+
+    auto *middleman_graph = vtkGraph::New();
+    //bosses_graph->DeepCopy(links_t2g->GetOutput());
+    for(int i = 0; i < num_link_vertices; i++){
+        int degree = links_t2g->GetOutput()->GetDegree(i);
+        if(2 <= degree && 5 >= degree){
+            //cout << degree << endl;
+            //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
+        }
+        else{
+            //bosses_graph->RemoveVertex(i);
+        }
+    }
 
 
     auto *cities_t2g = vtkTableToGraph::New();
