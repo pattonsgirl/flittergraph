@@ -73,13 +73,6 @@ int main(int argc, char* argv[]) {
     cities_t2g->AddLinkVertex("City", "City", 0);
     cities_t2g->AddLinkEdge("ID", "City");
 
-    //creates a category array from a string array
-    auto *str_category = vtkStringToCategory::New();
-    str_category->SetInputConnection(links_t2g->GetOutputPort());
-    //TODO: Play with what these variables mean
-    str_category->SetInputArrayToProcess(0,0,0,4,"domain");
-
-
     auto *cities_layout = vtkGraphLayoutView::New();
     cities_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
     //cities_layout->SetVertexLabelArrayName("ID");
@@ -94,6 +87,17 @@ int main(int argc, char* argv[]) {
     //links_layout->SetVertexLabelVisibility(1);
     links_layout->GetRenderWindow()->SetSize(500,500);
     links_layout->SetLayoutStrategyToFast2D();
+
+    //NOTE: ONLY DOING FOR LINKS HERE
+    //creates a category array from a string array
+    auto *str_category = vtkStringToCategory::New();
+    str_category->SetInputConnection(links_t2g->GetOutputPort());
+    //TODO: Play with what these variables mean
+    str_category->SetInputArrayToProcess(0,0,0,4,"domain");
+
+    auto *rep = links_layout->AddRepresentationFromInputConnection(str_category->GetOutputPort());
+    rep->SetSelectionType(2);
+    rep->SetAnnotationLink(anno_link);
 
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
     view_theme->SetSelectedCellColor(1,0,1);
