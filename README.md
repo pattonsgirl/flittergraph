@@ -15,11 +15,13 @@ Attached you'll find the following datasets:
 3.  Video 
 
 These datasets may help identify possible suspects, accomplices and evidence that could help the  \
-CI Office with their investigation.
+CI Office with their investigation. 
+
 For each of these datasets (i.e. for each of the mini challenge) you are asked to answer specific \
 questions that can be deduced strictly from the data provided. You will also be asked to provide a \
 process description highlighting your visualizations and interactions used to arrive at your \
 conclusions. Please see the task description page on the Challenge website.  
+
 For the Grand Challenge, you are asked to integrate the analysis results of the 3 Mini Challenges \
 to provide insight to the overall situation and to prepare a debrief document describing the \
 situation, providing the who, what, when, where and why according to your analysis.
