@@ -36,7 +36,16 @@ with Kijowski).  This can be done in c++ OR in bash.  I'm going to try to improv
 my skills parsing csv is bash before exploring C++ libraries to assist
   * `$ cat Links_Table.txt | awk '{print $1}' | sort | uniq -c`
   * Truncated Links_Table.txt by removing IDs not associated with the other files
-  * 
+  * Kind of paused with this implementation - if I remove users, then I lose connections \
+  to refer to - So if I had 10 connections, and removed two of those users because they \
+  themselves has too little activity, then I lose integrity of my visualization
+* Let's break down the search space:
+  * I can find the degree of a vertex AND I can find the edges count
+  * An employee should have 40 Flitter contacts
+  * A handler should have  30-40 Flitter contacts 
+    * handlers should be friends with the employee & the middle-man
+  * A middle-man should have 2-5 contacts, including the boss and the handler
+  * The boss should have over 100 contacts, and contact with a middle man
 
 * vtkTableToGraph
 * visualize directed graph?
