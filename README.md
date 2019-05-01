@@ -25,7 +25,7 @@ In addition to the above, the two social structures have geospatial implications
 
 
 ### Notes on files in data folder:
-* Treating files as though they are .csv as they are comma delimited values
+* Treating files as though they are .csv as they are tab (`\t`) delimited values
 * Flitter Names associates name with numeric ID
 * People Cities associates numeric ID with City
 * Links_Table associates numeric IDs with whom they have contact with (by reference of numeric ID)
@@ -35,11 +35,12 @@ In addition to the above, the two social structures have geospatial implications
 with Kijowski).  This can be done in c++ OR in bash.  I'm going to try to improve \
 my skills parsing csv is bash before exploring C++ libraries to assist
   * `$ cat Links_Table.txt | awk '{print $1}' | sort | uniq -c`
+  * Truncated Links_Table.txt by removing IDs not associated with the other files
+  * 
 
 * vtkTableToGraph
 * visualize directed graph?
 * Selected Graph IDs?
-* vtkTableToTree - vtkGroupLeafNodes
 
 ### Resources:
 * English overview of what functionality vtkDelimitedTextReader has

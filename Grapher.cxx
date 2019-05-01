@@ -15,6 +15,7 @@
 #include <vtkViewUpdater.h>
 #include <vtkStringToCategory.h>
 #include <vtkDataRepresentation.h>
+#include <vtkOutEdgeIterator.h>
 //includes for C++
 #include <string>
 #include <iostream>
@@ -65,6 +66,7 @@ int main(int argc, char* argv[]) {
     links_t2g->AddLinkVertex("ID2", "ID", 0);
     //don't need or want vertexes duplicated?
     //links_t2g->AddLinkVertex("ID2", "ID2", 0);
+    //TODO: would like to only add edges IF count is greater than threshold
     links_t2g->AddLinkEdge("ID2", "ID");
 
     auto *cities_t2g = vtkTableToGraph::New();
@@ -73,6 +75,20 @@ int main(int argc, char* argv[]) {
     cities_t2g->AddLinkVertex("ID", "ID", 0);
     cities_t2g->AddLinkVertex("City", "City", 0);
     cities_t2g->AddLinkEdge("ID", "City");
+    //need to call update OR vertices is not populated
+    cities_t2g->Update();
+    auto *city_edge_iterator = vtkOutEdgeIterator::New();
+    //get out edges takes vertex and iterator as args
+    cities_t2g->GetOutput()->GetOutEdges(1, city_edge_iterator);
+    //THERE ARE 12 CITIES:
+    //Citites are populated 2nd, so their vertex IDs are 6001-6012
+    cout << cities_t2g->GetOutput()->GetNumberOfVertices() << endl;
+    //Note: I need to know the city vertex IDs to get a "useful" number besides 1
+    cout << cities_t2g->GetOutput()->GetOutDegree(6002) << endl;
+    while(city_edge_iterator->HasNext()) { 
+        vtkOutEdgeType edge = city_edge_iterator->Next();
+        std::cout << "Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
+    }
 
     auto *cities_layout = vtkGraphLayoutView::New();
     cities_layout->AddRepresentationFromInputConnection(cities_t2g->GetOutputPort());
