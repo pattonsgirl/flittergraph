@@ -86,41 +86,28 @@ int main(int argc, char* argv[]) {
     int num_link_vertices = links_t2g->GetOutput()->GetNumberOfVertices();
     //create a new graph that will contain bosses (99+ links)
     auto *bosses_graph = vtkGraph::New();
-    //bosses_graph->DeepCopy(links_t2g->GetOutput());
-    for(int i = 0; i < num_link_vertices; i++){
-        int degree = links_t2g->GetOutput()->GetDegree(i);
-        if(100 <= degree){
-            //cout << degree << endl;
-            //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
-        }
-        else{
-            //bosses_graph->RemoveVertex(i);
-        }
-    }
-
+    auto *middleman_graph = vtkGraph::New();
     auto *handler_graph = vtkGraph::New();
     //bosses_graph->DeepCopy(links_t2g->GetOutput());
     for(int i = 0; i < num_link_vertices; i++){
         int degree = links_t2g->GetOutput()->GetDegree(i);
-        if(30 <= degree && 40 >= degree){
-            cout << degree << endl;
-            //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
-        }
-        else{
-            //bosses_graph->RemoveVertex(i);
-        }
-    }
-
-    auto *middleman_graph = vtkGraph::New();
-    //bosses_graph->DeepCopy(links_t2g->GetOutput());
-    for(int i = 0; i < num_link_vertices; i++){
-        int degree = links_t2g->GetOutput()->GetDegree(i);
-        if(2 <= degree && 5 >= degree){
+        if(100 <= degree){
+            //then it's a boss candidate
             //cout << degree << endl;
             //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
         }
+        else if(30 <= degree && 40 >= degree) {
+            //then it's a handler OR employee candidate
+            //cout << degree << endl;
+        }
+        else if(2 <= degree && 5 >= degree){
+            //then it's a middleman
+            //cout << degree << endl;
+        }
         else{
-            //bosses_graph->RemoveVertex(i);
+            //then it's nothing, remove vertex
+            //links_t2g->GetOutput()->RemoveVertex(i);
+            //links_t2g->Update();
         }
     }
 
