@@ -17,11 +17,15 @@
 #include <vtkDataRepresentation.h>
 #include <vtkOutEdgeIterator.h>
 #include <vtkGraph.h>
+#include <vtkMutableDirectedGraph.h>
+#include <vtkIntArray.h>
+//#include <vtkIdType.h> - not a thing
 //includes for C++
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
 using namespace std;
 
 //int main(int, char* [])
@@ -86,25 +90,36 @@ int main(int argc, char* argv[]) {
 
     int num_link_vertices = links_t2g->GetOutput()->GetNumberOfVertices();
     //create a new graph that will contain bosses (99+ links)
-    auto *bosses_graph = vtkGraph::New();
+    auto *bosses_graph = vtkMutableDirectedGraph::New();
     //handlers - between 30 and 40 links
-    auto *handler_graph = vtkGraph::New();
+    auto *handler_graph = vtkMutableDirectedGraph::New();
     //middlemen - between 4 and 5 links
-    auto *middleman_graph = vtkGraph::New();
+    auto *middleman_graph = vtkMutableDirectedGraph::New();
     //bosses_graph->DeepCopy(links_t2g->GetOutput());
     for(int i = 0; i < num_link_vertices; i++){
         int degree = links_t2g->GetOutput()->GetDegree(i);
         auto *link_edge_iterator = vtkOutEdgeIterator::New();
         if(100 <= degree){
             //then it's a boss candidate
+            int remember_me = i;
+            i = bosses_graph->AddVertex();
             links_t2g->GetOutput()->GetOutEdges(i, link_edge_iterator);
+            //Create an integer array to store vertex id data.
+            //auto vertID = vtkIntArray::New();
+            //vertID->SetName("ID");
+            //Link the vertex id array into the vertex data of the graph
+            //bosses_graph->GetVertexData()->AddArray( vertID );
             while(link_edge_iterator->HasNext()) { 
+                i = remember_me;
                 vtkOutEdgeType edge = link_edge_iterator->Next();
                 std::cout << "Source: " << i << " Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
-                bosses_graph->AddLinkVertex(i,"ID", 0);
-                bosses_graph->AddLinkVertex(edge.Target,"Follow",0);
-                bosses_graph->AddLinkEdge("ID","Follow");
+                //bosses_graph->AddVertex();
+                //vertID->InsertNextValue(i);
+                //bosses_graph->AddVertex(i);
+                //bosses_graph->AddVertex(edge.Target);
+                //bosses_graph->AddEdge(i, edge.Target);
             }
+            i = remember_me;
         }
             //cout << degree << endl;
             //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
@@ -164,6 +179,14 @@ int main(int argc, char* argv[]) {
     links_layout->GetRenderWindow()->SetSize(600,600);
     links_layout->SetLayoutStrategyToClustering2D();
 
+    auto *boss_layout = vtkGraphLayoutView::New();
+    boss_layout->SetRepresentationFromInput(bosses_graph);
+    //cities_layout->SetVertexLabelArrayName("ID");
+    //boss_layout->SetVertexLabelArrayName("City");
+    //boss_layout->SetVertexLabelVisibility(1);
+    boss_layout->GetRenderWindow()->SetSize(600,600);
+    boss_layout->SetLayoutStrategyToFast2D();
+
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
     view_theme->SetSelectedCellColor(1,0,1);
     view_theme->SetSelectedPointColor(1,0,1);
@@ -171,6 +194,7 @@ int main(int argc, char* argv[]) {
 
     cities_layout->ApplyViewTheme(view_theme);
     links_layout->ApplyViewTheme(view_theme);
+    boss_layout->ApplyViewTheme(view_theme);
     view_theme->FastDelete();
 
     //set up multiple render windows
@@ -182,13 +206,19 @@ int main(int argc, char* argv[]) {
     links_layout->ResetCamera();
     links_layout->Render();
 
+    boss_layout->GetRenderWindow();
+    boss_layout->ResetCamera();
+    boss_layout->Render();
+
     cities_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
     links_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
+    boss_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
     //this is to update view windows with our link?
     auto updater = vtkViewUpdater::New();
     updater->AddAnnotationLink(anno_link);
     updater->AddView(cities_layout);
     updater->AddView(links_layout);
+    updater->AddView(boss_layout);
 
     //only need to call one to get the party started?
     cities_layout->GetInteractor()->Start();
