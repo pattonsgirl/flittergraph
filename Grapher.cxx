@@ -13,6 +13,7 @@
 #include <vtkViewTheme.h>
 #include <vtkAnnotationLink.h>
 #include <vtkViewUpdater.h>
+#include <vtkStringToCategory.h>
 //includes for C++
 #include <string>
 #include <iostream>
@@ -78,6 +79,7 @@ int main(int argc, char* argv[]) {
     auto *links_t2g = vtkTableToGraph::New();
     links_t2g->AddInputConnection(links_users->GetOutputPort());
     links_t2g->AddLinkVertex("ID", "ID1", 0);
+    //don't need or want vertexes duplicated?
     //links_t2g->AddLinkVertex("ID2", "ID2", 0);
     links_t2g->AddLinkEdge("ID2", "ID");
 
@@ -91,7 +93,10 @@ int main(int argc, char* argv[]) {
     //cities_t2g->AddLinkEdge("ID", "ID2");
     //cities_t2g->Dump();
 
-    auto *layout = vtkGraphLayout::New();
+    //creates a category array from a string array
+    auto *str_category = vtkStringToCategory::New();
+    str_category->SetInputConnection(links_t2g->GetOutputPort());
+    str_category->SetInputArrayToProcess(0,0,0,4,"domain");
 
 
     auto *cities_layout = vtkGraphLayoutView::New();
@@ -127,6 +132,8 @@ int main(int argc, char* argv[]) {
     links_layout->ResetCamera();
     links_layout->Render();
 
+    cities_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
+    links_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
     //this is to update view windows with our link?
     auto updater = vtkViewUpdater::New();
     updater->AddAnnotationLink(anno_link);

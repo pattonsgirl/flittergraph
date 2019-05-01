@@ -51,3 +51,9 @@ In addition to the above, the two social structures have geospatial implications
   * https://github.com/Kitware/VTK/blob/master/Infovis/Layout/Testing/Cxx/TestGroupLeafVertices.cxx
 * vtkTable - how to manipulate tables
   * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/tables_adv.py
+* vtkStringToCategory - this link works, Google search didn't
+  * https://vtk.org/doc/nightly/html/classvtkStringToCategory.html
+* Selection Domain - Python - great example of what I think I'm trying to do
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/selection_domain.py
+* Extract selected graph - maybe do something like this to pull Flitter IDs?
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/selection.py
