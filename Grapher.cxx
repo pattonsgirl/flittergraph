@@ -104,26 +104,14 @@ int main(int argc, char* argv[]) {
             int remember_me = i;
             i = bosses_graph->AddVertex();
             links_t2g->GetOutput()->GetOutEdges(i, link_edge_iterator);
-            //Create an integer array to store vertex id data.
-            //auto vertID = vtkIntArray::New();
-            //vertID->SetName("ID");
-            //Link the vertex id array into the vertex data of the graph
-            //bosses_graph->GetVertexData()->AddArray( vertID );
             while(link_edge_iterator->HasNext()) { 
                 //i = remember_me;
                 vtkOutEdgeType edge = link_edge_iterator->Next();
                 std::cout << "Source: " << i << " Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
                 edge.Target = bosses_graph->AddChild(i);
-                //bosses_graph->AddVertex();
-                //vertID->InsertNextValue(i);
-                //bosses_graph->AddVertex(i);
-                //bosses_graph->AddChild(edge.Target);
-                //bosses_graph->AddEdge(i, edge.Target);
             }
             i = remember_me;
         }
-            //cout << degree << endl;
-            //bosses_graph->AddVertexInternal(links_t2g->GetOutput()->GetVertexData(i));
         
         else if(30 <= degree && 40 >= degree) {
             //then it's a handler OR employee candidate
