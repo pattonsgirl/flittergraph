@@ -83,8 +83,10 @@ my skills parsing csv is bash before exploring C++ libraries to assist
   * The boss should have over 100 contacts, and contact with a middle man
 * I am not worrying about displaying Flitter names for the scope of this project
   * Should have ability to select IDs, and then you can find them in Flitter_Names.txt
+* After banging my head long enough, figured out that my parsed graphs need to be \
+vtkMutableDirectedGraphs, not just vtkGraphs.  This let me add vertices and children \
+to those vertices
 
-* vtkTableToGraph
 * visualize directed graph?
 * Selected Graph IDs?
 

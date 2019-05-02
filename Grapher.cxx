@@ -78,8 +78,8 @@ int main(int argc, char* argv[]) {
     links_t2g->Update();
     //auto *link_edge_iterator = vtkOutEdgeIterator::New();
     //links_t2g->GetOutput()->GetOutEdges(2, link_edge_iterator);
-    cout << links_t2g->GetOutput()->GetNumberOfVertices() << endl;
-    cout << links_t2g->GetOutput()->GetDegree(2) << endl;
+    //cout << links_t2g->GetOutput()->GetNumberOfVertices() << endl;
+    //cout << links_t2g->GetOutput()->GetDegree(2) << endl;
     /*int count = 0;
     while(link_edge_iterator->HasNext()) { 
         vtkOutEdgeType edge = link_edge_iterator->Next();
@@ -99,33 +99,38 @@ int main(int argc, char* argv[]) {
     for(int i = 0; i < num_link_vertices; i++){
         int degree = links_t2g->GetOutput()->GetDegree(i);
         auto *link_edge_iterator = vtkOutEdgeIterator::New();
-        if(100 <= degree){
+        if(150 <= degree){
             //then it's a boss candidate
-            int remember_me = i;
-            i = bosses_graph->AddVertex();
+            vtkIdType a = bosses_graph->AddVertex();
             links_t2g->GetOutput()->GetOutEdges(i, link_edge_iterator);
             while(link_edge_iterator->HasNext()) { 
-                //i = remember_me;
                 vtkOutEdgeType edge = link_edge_iterator->Next();
-                std::cout << "Source: " << i << " Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
-                edge.Target = bosses_graph->AddChild(i);
+                //std::cout << "Source: " << i << " Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
+                edge.Target = bosses_graph->AddChild(a);
             }
-            i = remember_me;
         }
         
         else if(30 <= degree && 40 >= degree) {
             //then it's a handler OR employee candidate
-            //cout << degree << endl;
+            vtkIdType a = handler_graph->AddVertex();
+            links_t2g->GetOutput()->GetOutEdges(i, link_edge_iterator);
+            while(link_edge_iterator->HasNext()) { 
+                vtkOutEdgeType edge = link_edge_iterator->Next();
+                //std::cout << "Source: " << i << " Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
+                edge.Target = handler_graph->AddChild(a);
+            }
         }
         else if(4 <= degree && 5 >= degree){
             //then it's a middleman candidate
-            //cout << degree << endl;
+            vtkIdType a = middleman_graph->AddVertex();
+            links_t2g->GetOutput()->GetOutEdges(i, link_edge_iterator);
+            while(link_edge_iterator->HasNext()) { 
+                vtkOutEdgeType edge = link_edge_iterator->Next();
+                //std::cout << "Source: " << i << " Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
+                edge.Target = middleman_graph->AddChild(a);
+            }
         }
-        else{
-            //then it's nothing, remove vertex
-            //links_t2g->GetOutput()->RemoveVertex(i);
-            //links_t2g->Update();
-        }
+        //else we don't care, they aren't the droids we are looking for
     }
 
 
@@ -144,6 +149,7 @@ int main(int argc, char* argv[]) {
     cities_layout->SetVertexLabelArrayName("City");
     cities_layout->SetVertexLabelVisibility(1);
     cities_layout->GetRenderWindow()->SetSize(600,600);
+    cities_layout->GetRenderWindow()->SetWindowName("Users in Cities");
     cities_layout->SetLayoutStrategyToFast2D();
 
     auto *links_layout = vtkGraphLayoutView::New();
@@ -151,14 +157,32 @@ int main(int argc, char* argv[]) {
     links_layout->SetVertexLabelArrayName("ID");
     links_layout->SetVertexLabelVisibility(1);
     links_layout->GetRenderWindow()->SetSize(600,600);
+    links_layout->GetRenderWindow()->SetWindowName("Links - All");
     links_layout->SetLayoutStrategyToClustering2D();
 
     auto *boss_layout = vtkGraphLayoutView::New();
     boss_layout->SetRepresentationFromInput(bosses_graph);
-    //boss_layout->SetVertexLabelArrayName("City");
-    //boss_layout->SetVertexLabelVisibility(1);
+    boss_layout->SetVertexLabelArrayName("ID");
+    boss_layout->SetVertexLabelVisibility(1);
     boss_layout->GetRenderWindow()->SetSize(600,600);
+    boss_layout->GetRenderWindow()->SetWindowName("Boss Candidates");
     boss_layout->SetLayoutStrategyToFast2D();
+
+    auto *handler_layout = vtkGraphLayoutView::New();
+    handler_layout->SetRepresentationFromInput(handler_graph);
+    handler_layout->SetVertexLabelArrayName("ID");
+    handler_layout->SetVertexLabelVisibility(1);
+    handler_layout->GetRenderWindow()->SetSize(600,600);
+    handler_layout->GetRenderWindow()->SetWindowName("Handler Candidates");
+    handler_layout->SetLayoutStrategyToFast2D();
+
+    auto *middleman_layout = vtkGraphLayoutView::New();
+    middleman_layout->SetRepresentationFromInput(middleman_graph);
+    middleman_layout->SetVertexLabelArrayName("ID");
+    middleman_layout->SetVertexLabelVisibility(1);
+    middleman_layout->GetRenderWindow()->SetSize(600,600);
+    middleman_layout->GetRenderWindow()->SetWindowName("Middleman Candidates");
+    middleman_layout->SetLayoutStrategyToFast2D();
 
     auto *view_theme = vtkViewTheme::New()->CreateMellowTheme();
     view_theme->SetSelectedCellColor(1,0,1);
@@ -168,6 +192,8 @@ int main(int argc, char* argv[]) {
     cities_layout->ApplyViewTheme(view_theme);
     links_layout->ApplyViewTheme(view_theme);
     boss_layout->ApplyViewTheme(view_theme);
+    handler_layout->ApplyViewTheme(view_theme);
+    middleman_layout->ApplyViewTheme(view_theme);
     view_theme->FastDelete();
 
     //set up multiple render windows
@@ -183,15 +209,27 @@ int main(int argc, char* argv[]) {
     boss_layout->ResetCamera();
     boss_layout->Render();
 
+    handler_layout->GetRenderWindow();
+    handler_layout->ResetCamera();
+    handler_layout->Render();
+
+    middleman_layout->GetRenderWindow();
+    middleman_layout->ResetCamera();
+    middleman_layout->Render();
+
     cities_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
     links_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
     boss_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
+    handler_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
+    middleman_layout->GetRepresentation(0)->SetAnnotationLink(anno_link);
     //this is to update view windows with our link?
     auto updater = vtkViewUpdater::New();
     updater->AddAnnotationLink(anno_link);
     updater->AddView(cities_layout);
     updater->AddView(links_layout);
     updater->AddView(boss_layout);
+    updater->AddView(handler_layout);
+    updater->AddView(middleman_layout);
 
     //only need to call one to get the party started?
     cities_layout->GetInteractor()->Start();
