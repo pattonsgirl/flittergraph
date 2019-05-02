@@ -151,7 +151,7 @@ int main(int argc, char* argv[]) {
 
     auto *boss_layout = vtkGraphLayoutView::New();
     boss_layout->SetRepresentationFromInput(bosses_graph);
-    boss_layout->GetVertexLabelArrayName();
+    //boss_layout->GetVertexLabelArrayName();
     boss_layout->SetVertexLabelVisibility(1);
     boss_layout->GetRenderWindow()->SetSize(600,600);
     boss_layout->GetRenderWindow()->SetWindowName("Boss Candidates");
