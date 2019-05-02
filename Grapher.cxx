@@ -76,17 +76,6 @@ int main(int argc, char* argv[]) {
     links_t2g->AddLinkEdge("ID", "ID2");
     //links_t2g->AddLinkEdge("ID2", "ID");
     links_t2g->Update();
-    //auto *link_edge_iterator = vtkOutEdgeIterator::New();
-    //links_t2g->GetOutput()->GetOutEdges(2, link_edge_iterator);
-    //cout << links_t2g->GetOutput()->GetNumberOfVertices() << endl;
-    //cout << links_t2g->GetOutput()->GetDegree(2) << endl;
-    /*int count = 0;
-    while(link_edge_iterator->HasNext()) { 
-        vtkOutEdgeType edge = link_edge_iterator->Next();
-        std::cout << "Edge id: " << edge.Id << " Target: " << edge.Target << std::endl;
-        count += 1;
-    }
-    cout << "Verifying count: " << count << endl;*/
 
     int num_link_vertices = links_t2g->GetOutput()->GetNumberOfVertices();
     //create a new graph that will contain bosses (99+ links)
@@ -99,7 +88,7 @@ int main(int argc, char* argv[]) {
     for(int i = 0; i < num_link_vertices; i++){
         int degree = links_t2g->GetOutput()->GetDegree(i);
         auto *link_edge_iterator = vtkOutEdgeIterator::New();
-        if(150 <= degree){
+        if(100 <= degree){
             //then it's a boss candidate
             vtkIdType a = bosses_graph->AddVertex();
             links_t2g->GetOutput()->GetOutEdges(i, link_edge_iterator);
@@ -162,7 +151,7 @@ int main(int argc, char* argv[]) {
 
     auto *boss_layout = vtkGraphLayoutView::New();
     boss_layout->SetRepresentationFromInput(bosses_graph);
-    boss_layout->SetVertexLabelArrayName("ID");
+    boss_layout->GetVertexLabelArrayName();
     boss_layout->SetVertexLabelVisibility(1);
     boss_layout->GetRenderWindow()->SetSize(600,600);
     boss_layout->GetRenderWindow()->SetWindowName("Boss Candidates");
@@ -170,7 +159,7 @@ int main(int argc, char* argv[]) {
 
     auto *handler_layout = vtkGraphLayoutView::New();
     handler_layout->SetRepresentationFromInput(handler_graph);
-    handler_layout->SetVertexLabelArrayName("ID");
+    //handler_layout->SetVertexLabelArrayName("ID");
     handler_layout->SetVertexLabelVisibility(1);
     handler_layout->GetRenderWindow()->SetSize(600,600);
     handler_layout->GetRenderWindow()->SetWindowName("Handler Candidates");
@@ -178,7 +167,7 @@ int main(int argc, char* argv[]) {
 
     auto *middleman_layout = vtkGraphLayoutView::New();
     middleman_layout->SetRepresentationFromInput(middleman_graph);
-    middleman_layout->SetVertexLabelArrayName("ID");
+    //middleman_layout->SetVertexLabelArrayName("ID");
     middleman_layout->SetVertexLabelVisibility(1);
     middleman_layout->GetRenderWindow()->SetSize(600,600);
     middleman_layout->GetRenderWindow()->SetWindowName("Middleman Candidates");

@@ -86,9 +86,16 @@ my skills parsing csv is bash before exploring C++ libraries to assist
 * After banging my head long enough, figured out that my parsed graphs need to be \
 vtkMutableDirectedGraphs, not just vtkGraphs.  This let me add vertices and children \
 to those vertices
+* I have created (and can render) graphs for each type of potential criminal in the network
+* To Use:
+  * Highlight a large city, look for bosses to light up.  Once you have candidate bosses \
+  you can look for areas of interest in other views
 
-* visualize directed graph?
-* Selected Graph IDs?
+- Future work that would make things way cooler:
+  - Implement some form of selected graphs, where your highlighted data could "zoom in" \
+  on interesting areas you are trying to look at
+  - Should have created my graphs with SetName(?) so that I could refernce them when trying \
+  to get SetVertexLabelArrayName in my graph layouts.
 
 ### Resources:
 * English overview of what functionality vtkDelimitedTextReader has
@@ -110,7 +117,11 @@ to those vertices
   * https://vtk.org/doc/nightly/html/classvtkStringToCategory.html
 * Selection Domain - Python - great example of what I think I'm trying to do
   * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/selection_domain.py
+  * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/simple_selection.py
 * Extract selected graph - maybe do something like this to pull Flitter IDs?
   * https://github.com/Kitware/VTK/blob/master/Examples/Infovis/Python/selection.py
 * How to get how many vertices:
   * https://vtk.org/gitweb?p=VTK.git;a=blob;f=Infovis/Core/Testing/Cxx/TestTableToGraph.cxx
+* Reference for adding nodes to a mutable graph:
+  * https://vtk.org/gitweb?p=VTK.git;a=blob;f=Examples/Infovis/Cxx/CreateTree.cxx
+  * https://lorensen.github.io/VTKExamples/site/Cxx/Graphs/ConstructTree/
